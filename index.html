@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Elene's 29th Birthday Overcooked Challenge!</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;900&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- JUMPSCARE OVERLAY -->
+  <div id="jumpscare-overlay" class="hidden">
+    <div class="jumpscare-content">
+      <div class="jumpscare-face">😱</div>
+      <h2>WRONG ANSWER CHEF!</h2>
+    </div>
+  </div>
+
+  <!-- OVERCOOKED CHARACTER HOST (FULL-SCREEN BLOCKING OVERLAY) -->
+  <div id="character-host" class="hidden">
+    <div id="host-backdrop"></div>
+    <div id="host-wrapper">
+      <div id="host-bubble">Order up, Elene! Click me 3 times to get me out of the way! (<span id="click-count">3</span> left)</div>
+      <img src="chef.png" alt="Your Overcooked Chef Character" id="host-img" onclick="handleChefClick()" />
+    </div>
+  </div>
+
+  <div class="kitchen-container">
+    
+    <!-- HEADER & XP BAR -->
+    <header>
+      <h1>CHEF ELENE'S 29TH BIRTHDAY GAUNTLET 🍳</h1>
+      <p class="subtitle">Designed for 2–4 Players • Earn 3 Stars to Claim the Prize!</p>
+      
+      <div class="xp-container">
+        <div class="xp-bar-outer">
+          <div id="xp-bar-inner"></div>
+        </div>
+        <span id="xp-text">0 / 16 Objectives Completed (0%)</span>
+      </div>
+    </header>
+
+    <!-- PET GALLERY PLACEHOLDERS -->
+    <section class="pet-section">
+      <div class="pet-card">
+        <!-- Replace src with Pablo photo -->
+        <img src="https://placehold.co/80x80/e74c3c/fff?text=Pablo" alt="Pablo in a Hat" />
+        <span>Sous Chef Pablo</span>
+      </div>
+      <div class="pet-card">
+        <!-- Replace src with Bella photo -->
+        <img src="https://placehold.co/80x80/3498db/fff?text=Bella" alt="Bella in a Hat" />
+        <span>Sous Chef Bella</span>
+      </div>
+      <div class="pet-card">
+        <!-- Replace src with Bambi photo -->
+        <img src="https://placehold.co/80x80/2ecc71/fff?text=Bambi" alt="Bambi in a Hat" />
+        <span>Executive Bambi</span>
+      </div>
+    </section>
+
+    <!-- CHALLENGES GRID -->
+    <main id="quest-list">
+      
+      <!-- CHALLENGE 1 -->
+      <div class="quest-card" id="q1">
+        <div class="order-ticket-header">TICKET #01</div>
+        <h3>1. Gotta Go Fast! ⚡</h3>
+        <p class="rules"><strong>Rules:</strong> Only dashing allowed! You cannot put items down on counters. (Hard level with places to fall).</p>
+        <button onclick="completeTask('q1')">Pass Ticket ✓</button>
+      </div>
+
+      <!-- TRIVIA 1 -->
+      <div class="trivia-card" id="t1">
+        <h3>TRIVIA #1 🧠</h3>
+        <p>What is the most critical ingredient to a calm Overcooked kitchen?</p>
+        <div class="trivia-options">
+          <button onclick="answerTrivia('t1', false)">Yelling "WHERE IS THE PLATE?"</button>
+          <button onclick="answerTrivia('t1', true)">Hot Chocolate & Patience</button>
+          <button onclick="answerTrivia('t1', false)">Throwing raw fish across the room</button>
+        </div>
+      </div>
+
+      <!-- CHALLENGE 2 -->
+      <div class="quest-card" id="q2">
+        <div class="order-ticket-header">TICKET #02</div>
+        <h3>2. Freeze Frame 🔊</h3>
+        <p class="rules"><strong>Rules:</strong> Whenever you hear the custom sound prompt, everyone must freeze immediately until it stops!</p>
+        <button onclick="completeTask('q2')">Pass Ticket ✓</button>
+      </div>
+
+      <!-- TRIVIA 2 -->
+      <div class="trivia-card" id="t2">
+        <h3>TRIVIA #2 🧠</h3>
+        <p>Who is officially the cutest mascot in the Onion Kingdom?</p>
+        <div class="trivia-options">
+          <button onclick="answerTrivia('t2', true)">Kevin the Dog & Bambi the Rabbit</button>
+          <button onclick="answerTrivia('t2', false)">A burnt soup pot</button>
+        </div>
+      </div>
+
+      <!-- CHALLENGE 3 -->
+      <div class="quest-card" id="q3">
+        <div class="order-ticket-header">TICKET #03</div>
+        <h3>3. Controlled Burn 🔥</h3>
+        <p class="rules"><strong>Rules:</strong> Let one item intentionally burn on the stove! You must successfully cook around the fire/hazard.</p>
+        <button onclick="completeTask('q3')">Pass Ticket ✓</button>
+      </div>
+
+      <!-- CHALLENGE 4 -->
+      <div class="quest-card" id="q4">
+        <div class="order-ticket-header">TICKET #04</div>
+        <h3>4. Blind Trust 🙈</h3>
+        <p class="rules"><strong>Rules:</strong> One player closes their eyes completely and relies entirely on verbal directions from the team.</p>
+        <button onclick="completeTask('q4')">Pass Ticket ✓</button>
+      </div>
+
+      <!-- TRIVIA 3 -->
+      <div class="trivia-card" id="t3">
+        <h3>TRIVIA #3 🧠</h3>
+        <p>If fish fish noise happens in the kitchen, what is the proper response?</p>
+        <div class="trivia-options">
+          <button onclick="answerTrivia('t3', false)">Panic</button>
+          <button onclick="answerTrivia('t3', true)">Make the fish fish noise back immediately</button>
+        </div>
+      </div>
+
+      <!-- CHALLENGE 5 -->
+      <div class="quest-card" id="q5">
+        <div class="order-ticket-header">TICKET #05</div>
+        <h3>5. One Handed Chef ✋</h3>
+        <p class="rules"><strong>Rules:</strong> Every player can only use one hand on the controller for the entire round!</p>
+        <button onclick="completeTask('q5')">Pass Ticket ✓</button>
+      </div>
+
+      <!-- CHALLENGE 6 -->
+      <div class="quest-card" id="q6">
+        <div class="order-ticket-header">TICKET #06</div>
+        <h3>6. The Relay Race 🏃‍♂️</h3>
+        <p class="rules"><strong>Rules:</strong> Only one person can move at a time while the others stay completely still, then tag in!</p>
+        <button onclick="completeTask('q6')">Pass Ticket ✓</button>
+      </div>
+
+      <!-- TRIVIA 4 -->
+      <div class="trivia-card" id="t4">
+        <h3>TRIVIA #4 🧠</h3>
+        <p>Why are we doing all these ridiculous Overcooked challenges for Elene's 29th?</p>
+        <div class="trivia-options">
+          <button onclick="answerTrivia('t4', false)">Just an excuse to play Overcooked with you</button>
+          <button onclick="answerTrivia('t4', true)">To prove she is a 3-Star Master Chef (and get prizes!)</button>
+        </div>
+      </div>
+
+      <!-- CHALLENGE 7 -->
+      <div class="quest-card" id="q7">
+        <div class="order-ticket-header">TICKET #07</div>
+        <h3>7. Proper British Kitchen 🇬🇧</h3>
+        <p class="rules"><strong>Rules:</strong> Must speak in a posh British accent and narrate all actions. Drop the accent = throw away what you're holding!</p>
+        <button onclick="completeTask('q7')">Pass Ticket ✓</button>
+      </div>
+
+      <!-- CHALLENGE 8 -->
+      <div class="quest-card" id="q8">
+        <div class="order-ticket-header">TICKET #08</div>
+        <h3>8. 1v1 Versus Face-Off ⚔️</h3>
+        <p class="rules"><strong>Rules:</strong> Head-to-head 1v1 match on Ice or Burger Water levels!</p>
+        <button onclick="completeTask('q8')">Pass Ticket ✓</button>
+      </div>
+
+      <!-- TRIVIA 5 -->
+      <div class="trivia-card" id="t5">
+        <h3>TRIVIA #5 🧠</h3>
+        <p>What dish is Shrimp most likely to request?</p>
+        <div class="trivia-options">
+          <button onclick="answerTrivia('t5', true)">Anything with extra seafood & hot cocoa on the side</button>
+          <button onclick="answerTrivia('t5', false)">Boiled lettuce</button>
+        </div>
+      </div>
+
+      <!-- CHALLENGE 9 -->
+      <div class="quest-card" id="q9">
+        <div class="order-ticket-header">TICKET #09</div>
+        <h3>9. Inverted Madness 🙃</h3>
+        <p class="rules"><strong>Rules:</strong> Flip controller settings to Inverted Axis or hold your controller upside down!</p>
+        <button onclick="completeTask('q9')">Pass Ticket ✓</button>
+      </div>
+
+      <!-- CHALLENGE 10 -->
+      <div class="quest-card" id="q10">
+        <div class="order-ticket-header">TICKET #10</div>
+        <h3>10. Chef Simon Says 👑</h3>
+        <p class="rules"><strong>Rules:</strong> You can only chop, cook, or serve when Simon says so!</p>
+        <button onclick="completeTask('q10')">Pass Ticket ✓</button>
+      </div>
+
+      <!-- TRIVIA 6 -->
+      <div class="trivia-card" id="t6">
+        <h3>TRIVIA #6 🧠</h3>
+        <p>Is Elene officially the best 29-year-old Overcooked player in existence?</p>
+        <div class="trivia-options">
+          <button onclick="answerTrivia('t6', true)">YES! 100% 3-STARS!</button>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- PRIZE VAULT -->
+    <section id="prize-vault" class="locked">
+      <div id="vault-locked">
+        <h2>🔒 GRAND PRIZE LOCKED</h2>
+        <p>Complete all 10 Challenges & 6 Trivia Questions to reveal Elene's 29th Birthday Rewards!</p>
+      </div>
+
+      <!-- FAKE TROLL REWARD (STAGE 1) -->
+      <div id="vault-troll" style="display:none;">
+        <h2>🎉 3-STAR VICTORY! 🎉</h2>
+        <p class="troll-title">Your reward is... a custom song written just for you!</p>
+        
+        <div class="audio-container">
+          <p>🎵 <em>Playing: "Elene's Overcooked Anthem.mp3"</em></p>
+          <audio controls id="troll-audio">
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+            Your browser does not support audio.
+          </audio>
+        </div>
+
+        <button onclick="revealRealReward()" class="real-reward-btn">Wait... Where is the real gift? Click here! 🎁</button>
+      </div>
+
+      <!-- REAL REWARD (STAGE 2) -->
+      <div id="vault-real" style="display:none;">
+        <h2>👑 THE REAL 29TH BIRTHDAY REWARDS 👑</h2>
+        <p class="emotional-note">"(Would have got an iPhone or something but I know you would have tears of joy and I wouldn't want you to cry at all!)"</p>
+        
+        <div class="real-prizes">
+          <div class="prize-card">
+            🌟 <h3>STAR NAMED AFTER ELENE</h3>
+            <p>An actual registered star in the night sky named in your honor!</p>
+            <a href="https://example.com" target="_blank" class="prize-link">View Star Registry Certificate 📜</a>
+          </div>
+
+          <div class="prize-card">
+            💳 <h3>£100 AMAZON VOUCHER</h3>
+            <p>Code: <strong class="voucher-code">ELENE-29BDAY-AMZN100</strong></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
